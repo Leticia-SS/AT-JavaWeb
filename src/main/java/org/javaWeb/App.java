@@ -36,6 +36,17 @@ public class App
         });
 
 
+        app.get("/saudacao/{nome}", ctx -> {
+            String nome = ctx.pathParam("nome");
+            Map<String,String> resposta = Map.of("mensagem", "Ola, " + nome + "!");
+            ctx.json(gson.toJson(resposta));
+        });
+
+
+
+
+
+
 
 
 
