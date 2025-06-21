@@ -14,7 +14,7 @@ public class App
     {
         Javalin app  = Javalin.create().start(7000);
 
-//        app.get("/hello", ctx -> ctx.result("Hello, Javalin!!!"));
+        app.get("/hello", ctx -> ctx.result("Hello, Javalin!!!"));
 
         Gson gson = new Gson();
 
@@ -23,6 +23,16 @@ public class App
             resposta.put("Status", "ok");
             resposta.put("Timestampp", Instant.now().toString());
             ctx.json(gson.toJson(resposta));
+        });
+
+
+        app.post("/echo", ctx -> {
+            Map<String,String> requestBody = gson.fromJson(ctx.body(), Map.class);
+            if(!requestBody.containsKey("mensagem")) {
+                ctx.status(400).result("{\"erro\": \"campo 'mensagem' é obrigatório\"}");
+                return;
+            }
+            ctx.json(gson.toJson(requestBody));
         });
 
 
