@@ -4,12 +4,11 @@ package org.javaWeb;
 import com.google.gson.Gson;
 import io.javalin.Javalin;
 import org.javaWeb.Controllers.Livro;
+import org.jetbrains.annotations.NotNull;
 
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class App
 {
@@ -59,8 +58,22 @@ public class App
             ctx.status(201).json(gson.toJson(listaLivro));;
         });
 
+
         app.get("/livros", ctx -> {
             ctx.json(gson.toJson(listaLivro));
+        });
+
+        app.get("/livros/{genero}", ctx->{
+            String buscarPorGenero = ctx.pathParam("genero");
+            List<Livro> livro = listaLivro.stream()
+                    .filter(l -> l.getGenero().equalsIgnoreCase(buscarPorGenero))
+                    .collect(Collectors.toList());
+            if (!livro.isEmpty()) {
+                ctx.result(gson.toJson(livro));
+            } else {
+                ctx.status(404).result("{\"erro\": \"nenhum livro encontrado\"}");
+            }
+
         });
 
 
