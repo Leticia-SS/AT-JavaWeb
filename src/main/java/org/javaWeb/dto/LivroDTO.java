@@ -1,13 +1,13 @@
-package org.javaWeb.Controllers;
+package org.javaWeb.dto;
 
-public class Livro {
+public class LivroDTO {
     private String titulo;
     private String autor;
     private int anoPublicado;
     private String genero;
     private String editora;
 
-    public Livro(String titulo, String autor, int anoPublicado, String genero, String editora) {
+    public LivroDTO(String titulo, String autor, int anoPublicado, String genero, String editora) {
         this.titulo = titulo;
         this.autor = autor;
         this.anoPublicado = anoPublicado;
