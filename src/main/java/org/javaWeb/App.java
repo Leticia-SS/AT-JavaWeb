@@ -18,7 +18,7 @@ public class App
         Javalin app = Javalin.create();
 
         HelloController.routes(app);
-        StatusController.routes(app);
+        StatusController.routes(app, gson);
         EchoController.routes(app, gson);
         SaudacaoController.routes(app, gson);
         LivroController.routes(app, gson);

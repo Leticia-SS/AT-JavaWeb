@@ -19,6 +19,7 @@ public class LivroApiClient {
             criarLivroComPost();
             listarLivros();
             buscarPorGenero("Aventura");
+            verificarStatus();
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -107,6 +108,41 @@ public class LivroApiClient {
 
         System.out.println("=====================================\n\n");
         connection.disconnect();
+    }
 
+    public static void verificarStatus() throws IOException {
+        URL url = new URL(BASE_URL + "/status");
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+
+        try {
+            int statusCode = connection.getResponseCode();
+            System.out.println("Código HTTP: " + statusCode);
+
+            if (statusCode == 200) {
+                try (BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+                    StringBuilder response = new StringBuilder();
+                    String line;
+                    while ((line = br.readLine()) != null) {
+                        response.append(line);
+                    }
+
+                    String jsonFormatado = response.toString().replace("},{", "},\n{")
+                            .replace("[", "[\n")
+                            .replace("]", "\n]");
+
+                    System.out.println("Resposta do servidor");
+                    System.out.println(jsonFormatado);
+                }
+
+            } else {
+                System.err.println("Erro inesperado: " + statusCode);
+            }
+
+        } catch (IOException ex) {
+            System.err.println("Erro" + ex.getMessage());
+        }
+        System.out.println("=====================================\n\n");
+        connection.disconnect();
     }
 }
