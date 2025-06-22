@@ -10,8 +10,12 @@ public class App
 {
     public static void main( String[] args )
     {
+        createApp().start(7000);
+    }
+
+    public static Javalin createApp() {
         Gson gson = new Gson();
-        Javalin app  = Javalin.create().start(7000);
+        Javalin app = Javalin.create();
 
         HelloController.routes(app);
         StatusController.routes(app);
@@ -19,5 +23,6 @@ public class App
         SaudacaoController.routes(app, gson);
         LivroController.routes(app, gson);
 
+        return app;
     }
 }
